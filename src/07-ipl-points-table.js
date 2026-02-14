@@ -51,47 +51,39 @@ export function iplPointsTable(matches) {
         tied: 0,
         noResult: 0,
         points: 0
-      }
+      };
     }
-  }
-
+  };
   for (let i = 0; i < matches.length; i++) {
-    const match = matches[i];
-    const { team1, team2, result, winner } = match;
+    const { team1, team2, result, winner } = matches[i];
     initTeam(team1);
     initTeam(team2);
-    table[match.team1].played++;
-    table[match.team2].played++;
-
+    table[team1].played++;
+    table[team2].played++;
     if (result === "win") {
-      if (winner === team1) {
-        table[team1].won++;
-        table[team1].points += 2;
-        table[team2].lost++;
-      } else if (winner === team2) {
-        table[team2].won++;
-        table[team2].points += 2;
-        table[team1].lost++;
-      }
+      table[winner].won++;
+      table[winner].points += 2;
+      const loser = winner === team1 ? team2 : team1;
+      table[loser].lost++;
     } else if (result === "tie") {
       table[team1].tied++;
-      table[team1].points += 1;
       table[team2].tied++;
+      table[team1].points += 1;
       table[team2].points += 1;
     } else if (result === "no_result") {
       table[team1].noResult++;
-      table[team1].points += 1;
       table[team2].noResult++;
+      table[team1].points += 1;
       table[team2].points += 1;
     }
-    const tableArray = Object.values(table);
-    tableArray.sort((a, b) => {
-      if (b.points !== a.points) {
-        return b.points - a.points;
-      }
-      return a.team.localeCompare(b.team);
-    })
-    return tableArray;
-
   }
+  const tableArray = Object.values(table);
+  tableArray.sort((a, b) => {
+    if (b.points !== a.points) {
+      return b.points - a.points;
+    }
+    return a.team.localeCompare(b.team);
+  });
+
+  return tableArray;
 }
