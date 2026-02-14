@@ -31,35 +31,30 @@
  *   // => { totalRuns: 0, totalBalls: 0, wickets: 0, fours: 0, sixes: 0 }
  */
 export function cricketScoreboard(balls) {
-  if(!Array.isArray(balls) || balls.length === 0) {
-    return { totalRuns: 0, totalBalls: 0, wickets: 0, fours: 0, sixes: 0 }
+  const ERROR_RESULT = { totalRuns: 0, totalBalls: 0, wickets: 0, fours: 0, sixes: 0 };
+  if (!Array.isArray(balls) || balls.length === 0) {
+    return ERROR_RESULT;
   }
 
-  let totalRuns = 0, totalBalls = 0, wickets = 0, fours = 0, sixes = 0
-  for(let i = 0; i < balls.length; i++) {
-    if(balls[i] === -1) {
-      wickets++
-      if(wickets === 10) {
-        break
+  let totalRuns = 0;
+  let totalBalls = 0;
+  let wickets = 0;
+  let fours = 0;
+  let sixes = 0;
+
+  for (let i = 0; i < balls.length; i++) {
+    totalBalls++;
+    if (balls[i] === -1) {
+      wickets++;
+      if (wickets === 10) {
+        break;
       }
-    } else if(balls[i] === 4) {
-      fours++
-    } else if(balls[i] === 6) {
-      sixes++
+    } else {
+      totalRuns += balls[i];
+      if (balls[i] === 4) fours++;
+      if (balls[i] === 6) sixes++;
     }
-    totalRuns += balls[i]
-    totalBalls++
   }
-
-  if(totalBalls === 0) {
-    return { totalRuns: 0, totalBalls: 0, wickets: 0, fours: 0, sixes: 0 }
-  }
-
-  if(totalRuns < 0) totalRuns = 0
-  if(totalBalls < 0) totalBalls = 0
-  if(wickets < 0) wickets = 0
-  if(fours < 0) fours = 0
-  if(sixes < 0) sixes = 0
 
   return {
     totalRuns,
@@ -67,5 +62,5 @@ export function cricketScoreboard(balls) {
     wickets,
     fours,
     sixes
-  }
+  };
 }
