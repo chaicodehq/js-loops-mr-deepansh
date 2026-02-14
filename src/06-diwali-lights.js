@@ -43,14 +43,10 @@ export function diwaliLightsPlan(lightStrings, budget) {
   if (!Array.isArray(lightStrings) || typeof budget !== "number" || budget <= 0) {
     return ERROR_RESULT;
   }
-
   const selected = [];
   let totalLength = 0;
   let totalCost = 0;
-
-  // Step 1: Add all lights
   for (const light of lightStrings) {
-
     const { color, length } = light;
     if (typeof length !== "number" || length <= 0) continue;
     let rate;
@@ -58,7 +54,6 @@ export function diwaliLightsPlan(lightStrings, budget) {
     else if (color === "multicolor") rate = 40;
     else if (color === "white") rate = 30;
     else rate = 35;
-
     const cost = length * rate;
     selected.push({ color, length, cost });
     totalLength += length;
